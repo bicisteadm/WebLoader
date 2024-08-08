@@ -10,8 +10,6 @@ parameters:
 
 	level: 8
 
-	checkMissingIterableValueType: false
-
 	ignoreErrors:
 		-
 			message: '#Parameter \#1 \$filter of method WebLoader\\Compiler::addFilter\(\) expects callable\(\): mixed, 4 given\.#'
