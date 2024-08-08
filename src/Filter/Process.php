@@ -14,6 +14,7 @@ use RuntimeException;
  */
 class Process
 {
+	/** @param array<string, string> $env */
 	public static function run(
 		string $cmd,
 		?string $stdin = null,

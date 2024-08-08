@@ -32,6 +32,7 @@ class ExtensionTest extends TestCase
 	}
 
 
+	/** @param list<string> $configFiles */
 	private function prepareContainer(array $configFiles): void
 	{
 		$finder = Finder::findFiles('*')

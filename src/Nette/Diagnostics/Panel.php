@@ -16,6 +16,7 @@ use WebLoader\Compiler;
  */
 class Panel implements IBarPanel
 {
+	/** @var array<string, string>  */
 	public static array $types = [
 		'css' => 'CSS files',
 		'js' => 'JavaScript files',
@@ -26,9 +27,15 @@ class Panel implements IBarPanel
 	/** @var Compiler[] */
 	private array $compilers = [];
 
+	/** @var array{original: int, combined: int, ratio: float}|null */
 	private ?array $size = null;
+
+	/** @var array<int|string, mixed> */
 	private array $files;
+
+	/** @var array<int|string, mixed> */
 	private array $sizes;
+
 	private string $root;
 
 
@@ -57,6 +64,7 @@ class Panel implements IBarPanel
 
 	/**
 	 * Computes the info.
+	 * @return array{original: int, combined: int, ratio: float}
 	 */
 	private function compute(): array
 	{
@@ -148,7 +156,7 @@ class Panel implements IBarPanel
 	 */
 	public function getPanel(): string
 	{
-		return $this->compute() ? $this->getTable() : '';
+		return $this->compute() ? $this->getTable() : ''; //@phpstan-ignore ternary.alwaysTrue
 	}
 
 

@@ -18,6 +18,7 @@ class VariablesFilter
 	private string $endVariable = '}}';
 
 
+	/** @param array<string, string> $variables */
 	public function __construct(private array $variables = [])
 	{
 		foreach ($variables as $key => $value) {
@@ -58,8 +59,7 @@ class VariablesFilter
 
 	/**
 	 * Magic get variable, do not call directly
-	 *
-	 * @throws \WebLoader\Exception\InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function &__get(string $name): string
 	{

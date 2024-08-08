@@ -9,12 +9,15 @@ use SplFileInfo;
 final class File
 {
 	private SplFileInfo $file;
+
+	/** @var array<int|string, string> */
 	private array $sourceFiles;
 
 
+	/** @param array<int|string, string> $sourceFiles */
 	public function __construct(
 		string $path,
-		array $sourceFiles
+		array $sourceFiles,
 	) {
 		$this->file = new SplFileInfo($path);
 		$this->sourceFiles = $sourceFiles;
@@ -39,6 +42,7 @@ final class File
 	}
 
 
+	/** @return array<int|string, string> */
 	public function getSourceFiles(): array
 	{
 		return $this->sourceFiles;

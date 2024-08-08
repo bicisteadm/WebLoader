@@ -17,6 +17,7 @@ use SplFileInfo;
 use WebLoader\BatchCollection;
 use WebLoader\Compiler as WebloaderCompiler;
 use WebLoader\Contract\IWebloaderAssetProvider;
+use WebLoader\Exception\BatchAlreadyExistsException;
 use WebLoader\Exception\CompilationException;
 use WebLoader\Exception\FileNotFoundException;
 use WebLoader\FileCollection;
@@ -181,6 +182,13 @@ class Extension extends CompilerExtension
 	}
 
 
+	/**
+	 * @param ContainerBuilder $builder
+	 * @param string $name
+	 * @param array<int|string, mixed> $config
+	 * @return void
+	 * @throws FileNotFoundException
+	 */
 	private function addWebLoader(ContainerBuilder $builder, string $name, array $config): void
 	{
 		$filesServiceName = $this->prefix($name . 'Files');
@@ -263,11 +271,17 @@ class Extension extends CompilerExtension
 	}
 
 
+	/**
+	 * @param array<int|string, mixed> $filesConfig
+	 * @param string $sourceDir
+	 * @return array<int|string, mixed>
+	 * @throws FileNotFoundException
+	 */
 	private function findFiles(array $filesConfig, string $sourceDir): array
 	{
 		$normalizedFiles = [];
 
-		/** @var array|string $file */
+		/** @var array<string, mixed>|string $file */
 		foreach ($filesConfig as $file) {
 			// finder support
 			if (is_array($file) && isset($file['files']) && (isset($file['in']) || isset($file['from']))) {
@@ -359,6 +373,10 @@ class Extension extends CompilerExtension
 	}
 
 
+	/**
+	 * @param array<string, mixed> $config
+	 * @throws BatchAlreadyExistsException
+	 */
 	private function extractNormalBatches(array $config): void
 	{
 		foreach (['css', 'js'] as $type) {

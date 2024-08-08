@@ -52,9 +52,16 @@ class CompilerTest extends TestCase
 	}
 
 
+	/** @return list<string> */
 	private function getTempFiles(): array
 	{
-		return (array)glob(__DIR__ . '/temp/webloader-*');
+		$files = glob(__DIR__ . '/temp/webloader-*');
+
+		if ($files === false) {
+			return [];
+		}
+
+		return $files;
 	}
 
 

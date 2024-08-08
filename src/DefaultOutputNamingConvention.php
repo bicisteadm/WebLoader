@@ -75,6 +75,7 @@ class DefaultOutputNamingConvention implements IOutputNamingConvention
 
 	/**
 	 * Filename of generated file
+	 * @param array<int|string, string> $files
 	 */
 	public function getFilename(array $files, Compiler $compiler): string
 	{
@@ -82,6 +83,7 @@ class DefaultOutputNamingConvention implements IOutputNamingConvention
 	}
 
 
+	/** @param array<int|string, string> $files */
 	protected function createHash(array $files, Compiler $compiler): string
 	{
 		$parts = $files;

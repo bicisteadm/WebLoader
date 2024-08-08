@@ -14,9 +14,11 @@ use WebLoader\Compiler;
  */
 class TypeScriptFilter
 {
+	/** @var array<string, string>|null */
 	private ?array $env;
 
 
+	/** @param array<string, string> $env */
 	public function __construct(private string $bin = 'tsc', array $env = [])
 	{
 		$this->env = $env + $_ENV;

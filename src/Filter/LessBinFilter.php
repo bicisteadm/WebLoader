@@ -14,9 +14,11 @@ use WebLoader\Compiler;
  */
 class LessBinFilter
 {
+	/** @var array<string, string> */
 	private array $env;
 
 
+	/** @param array<string, string> $env */
 	public function __construct(private string $bin = 'lessc', array $env = [])
 	{
 		$this->env = $env + $_ENV;

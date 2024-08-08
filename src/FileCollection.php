@@ -16,16 +16,22 @@ use WebLoader\Exception\FileNotFoundException;
  */
 class FileCollection implements IFileCollection
 {
+	/** @var array<int, string> */
 	private array $files = [];
+
+	/** @var array<int, string> */
 	private array $watchFiles = [];
+
+	/** @var array<int, string> */
 	private array $remoteFiles = [];
 
 
-	public function __construct(private string $root)
+	public function __construct(private readonly string $root)
 	{
 	}
 
 
+	/** @return list<string> */
 	public function getFiles(): array
 	{
 		return array_values($this->files);
@@ -54,10 +60,10 @@ class FileCollection implements IFileCollection
 
 
 	/**
-	 * @param string|SplFileInfo $file
+	 * @param SplFileInfo|string $file
 	 * @throws FileNotFoundException
 	 */
-	public function addFile($file): void
+	public function addFile(SplFileInfo|string $file): void
 	{
 		$file = $this->cannonicalizePath((string) $file);
 
@@ -71,9 +77,9 @@ class FileCollection implements IFileCollection
 
 	/**
 	 * Add files
-	 * @param array|Traversable $files array list of files
+	 * @param iterable<int|string, string> $files array list of files
 	 */
-	public function addFiles($files): void
+	public function addFiles(iterable $files): void
 	{
 		foreach ($files as $file) {
 			$this->addFile($file);
@@ -87,6 +93,7 @@ class FileCollection implements IFileCollection
 	}
 
 
+	/** @param array<int|string, string> $files */
 	public function removeFiles(array $files): void
 	{
 		$files = array_map([$this, 'cannonicalizePath'], $files);
@@ -110,9 +117,9 @@ class FileCollection implements IFileCollection
 
 	/**
 	 * Add multiple remote files
-	 * @param array|Traversable $files
+	 * @param iterable<int|string, string> $files
 	 */
-	public function addRemoteFiles($files): void
+	public function addRemoteFiles(iterable $files): void
 	{
 		foreach ($files as $file) {
 			$this->addRemoteFile($file);
@@ -131,6 +138,7 @@ class FileCollection implements IFileCollection
 	}
 
 
+	/** @return array<int|string, string> */
 	public function getRemoteFiles(): array
 	{
 		return $this->remoteFiles;
@@ -157,9 +165,9 @@ class FileCollection implements IFileCollection
 
 	/**
 	 * Add watch files
-	 * @param array|Traversable $files array list of files
+	 * @param iterable<int|string, string> $files array list of files
 	 */
-	public function addWatchFiles($files): void
+	public function addWatchFiles(iterable $files): void
 	{
 		foreach ($files as $file) {
 			$this->addWatchFile($file);
@@ -167,6 +175,7 @@ class FileCollection implements IFileCollection
 	}
 
 
+	/** @return list<string> */
 	public function getWatchFiles(): array
 	{
 		return array_values($this->watchFiles);

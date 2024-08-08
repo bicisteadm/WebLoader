@@ -13,5 +13,6 @@ use WebLoader\Compiler;
  */
 interface IOutputNamingConvention
 {
+	/** @param array<int|string, string> $files */
 	public function getFilename(array $files, Compiler $compiler): string;
 }

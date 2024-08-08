@@ -20,8 +20,13 @@ class Compiler
 	private IFileCollection $collection;
 	private IOutputNamingConvention $namingConvention;
 	private string $outputDir;
+
+	/** @var list<callable> */
 	private array $filters = [];
+
+	/** @var list<callable> */
 	private array $fileFilters = [];
+
 	private bool $checkLastModified = true;
 	private bool $debugging = false;
 	private bool $async = false;
@@ -146,6 +151,7 @@ class Compiler
 
 	/**
 	 * Get last modified timestamp of newest file
+	 * @param list<string>|null $files
 	 */
 	public function getLastModified(?array $files = null): int
 	{
@@ -155,6 +161,7 @@ class Compiler
 
 		$modified = 0;
 
+		/** @var string $file */
 		foreach ($files as $file) {
 			$modified = max($modified, filemtime((string) realpath($file)));
 		}
@@ -165,6 +172,7 @@ class Compiler
 
 	/**
 	 * Get joined content of all files
+	 * @param array<int|string, string>|null $files
 	 */
 	public function getContent(?array $files = null): string
 	{
@@ -201,6 +209,10 @@ class Compiler
 	}
 
 
+	/**
+	 * @param list<string> $files
+	 * @param list<string> $watchFiles
+	 */
 	protected function generateFiles(array $files, array $watchFiles = []): File
 	{
 		$name = $this->namingConvention->getFilename($files, $this);
@@ -261,6 +273,7 @@ class Compiler
 	}
 
 
+	/** @return list<callable> */
 	public function getFilters(): array
 	{
 		return $this->filters;
@@ -273,6 +286,7 @@ class Compiler
 	}
 
 
+	/** @return list<callable> */
 	public function getFileFilters(): array
 	{
 		return $this->fileFilters;
