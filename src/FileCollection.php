@@ -22,9 +22,6 @@ class FileCollection implements IFileCollection
 	/** @var array<int, string> */
 	private array $watchFiles = [];
 
-	/** @var array<int, string> */
-	private array $remoteFiles = [];
-
 
 	public function __construct(private readonly string $root)
 	{
@@ -102,46 +99,12 @@ class FileCollection implements IFileCollection
 
 
 	/**
-	 * Add file in remote repository (for example Google CDN).
-	 * @param string $file URL address
-	 */
-	public function addRemoteFile(string $file): void
-	{
-		if (in_array($file, $this->remoteFiles, true)) {
-			return;
-		}
-
-		$this->remoteFiles[] = $file;
-	}
-
-
-	/**
-	 * Add multiple remote files
-	 * @param iterable<int|string, string> $files
-	 */
-	public function addRemoteFiles(iterable $files): void
-	{
-		foreach ($files as $file) {
-			$this->addRemoteFile($file);
-		}
-	}
-
-
-	/**
 	 * Remove all files
 	 */
 	public function clear(): void
 	{
 		$this->files = [];
 		$this->watchFiles = [];
-		$this->remoteFiles = [];
-	}
-
-
-	/** @return array<int|string, string> */
-	public function getRemoteFiles(): array
-	{
-		return $this->remoteFiles;
 	}
 
 

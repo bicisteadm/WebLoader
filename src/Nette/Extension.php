@@ -69,7 +69,6 @@ class Extension extends CompilerExtension
 			'tempPath' => Expect::string($tempPath),
 			'files' => Expect::array(),
 			'watchFiles' => Expect::array(),
-			'remoteFiles' => Expect::array(),
 			'filters' => Expect::array(),
 			'fileFilters' => Expect::array(),
 			'async' => Expect::bool($async),
@@ -103,7 +102,6 @@ class Extension extends CompilerExtension
 			'tempPath' => Expect::string($tempPath),
 			'files' => Expect::array(),
 			'watchFiles' => Expect::array(),
-			'remoteFiles' => Expect::array(),
 			'filters' => Expect::array(),
 			'fileFilters' => Expect::array(),
 			'async' => Expect::bool($async),
@@ -204,8 +202,6 @@ class Extension extends CompilerExtension
 		foreach ($this->findFiles($config['watchFiles'], $config['sourceDir']) as $file) {
 			$files->addSetup('addWatchFile', [$file]);
 		}
-
-		$files->addSetup('addRemoteFiles', [$config['remoteFiles']]);
 
 		$compiler = $builder->addDefinition($this->prefix($name . 'Compiler'))
 			->setType(WebloaderCompiler::class)

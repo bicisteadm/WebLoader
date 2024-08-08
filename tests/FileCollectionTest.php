@@ -83,29 +83,11 @@ class FileCollectionTest extends TestCase
 	public function testClear(): void
 	{
 		$this->object->addFile('a.txt');
-		$this->object->addRemoteFile('http://jquery.com/jquery.js');
 		$this->object->addWatchFile('b.txt');
 		$this->object->clear();
 
 		$this->assertEquals([], $this->object->getFiles());
-		$this->assertEquals([], $this->object->getRemoteFiles());
 		$this->assertEquals([], $this->object->getWatchFiles());
-	}
-
-
-	public function testRemoteFiles(): void
-	{
-		$this->object->addRemoteFile('http://jquery.com/jquery.js');
-		$this->object->addRemoteFiles([
-			'http://jquery.com/jquery.js',
-			'http://google.com/angular.js',
-		]);
-
-		$expected = [
-			'http://jquery.com/jquery.js',
-			'http://google.com/angular.js',
-		];
-		$this->assertEquals($expected, $this->object->getRemoteFiles());
 	}
 
 
@@ -127,13 +109,6 @@ class FileCollectionTest extends TestCase
 	{
 		$this->object->addFiles(new ArrayIterator(['a.txt']));
 		$this->assertCount(1, $this->object->getFiles());
-	}
-
-
-	public function testTraversableRemoteFiles(): void
-	{
-		$this->object->addRemoteFiles(new ArrayIterator(['http://jquery.com/jquery.js']));
-		$this->assertCount(1, $this->object->getRemoteFiles());
 	}
 
 

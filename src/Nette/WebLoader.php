@@ -79,11 +79,6 @@ abstract class WebLoader extends Control
 			$this->compiler->setFileCollection($newFiles);
 		}
 
-		// remote files
-		foreach ($this->compiler->getFileCollection()->getRemoteFiles() as $file) {
-			echo $this->getElement($file), PHP_EOL;
-		}
-
 		$file = $this->compiler->generate();
 		if ($file) {
 			echo $this->getElement($file), PHP_EOL;
