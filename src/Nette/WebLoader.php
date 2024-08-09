@@ -7,8 +7,8 @@ namespace WebLoader\Nette;
 use Nette\Application\UI\Control;
 use Nette\Utils\Html;
 use WebLoader\Compiler;
+use WebLoader\Enum\RenderMode;
 use WebLoader\File;
-use WebLoader\FileCollection;
 
 /**
  * Web loader
@@ -18,10 +18,12 @@ use WebLoader\FileCollection;
  */
 abstract class WebLoader extends Control
 {
+	private RenderMode $renderMode = RenderMode::LINK;
+
 	public function __construct(
 		private Compiler $compiler,
 		private string $tempPath,
-		private bool $appendLastModified
+		private readonly bool $appendLastModified
 	) {
 	}
 
@@ -59,6 +61,12 @@ abstract class WebLoader extends Control
 	abstract public function getInlineElement(File $file): Html;
 
 
+	public function setRenderMode(RenderMode $renderMode): void
+	{
+		$this->renderMode = $renderMode;
+	}
+
+
 	protected function getUrl(File $file): string
 	{
 		return $this->getGeneratedFilePath($file);
@@ -71,27 +79,32 @@ abstract class WebLoader extends Control
 	public function render(): void
 	{
 		$file = $this->compiler->generate();
-		if ($file) {
-			echo $this->getElement($file), PHP_EOL;
+
+		if ($file === null) {
+			return;
 		}
+
+		$output = match ($this->renderMode) {
+			RenderMode::URL => $this->getUrl($file),
+			RenderMode::LINK => $this->getElement($file),
+			RenderMode::INLINE => $this->getInlineElement($file),
+		};
+
+		echo $output, PHP_EOL;
 	}
 
 
 	public function renderInline(): void
 	{
-		$file = $this->compiler->generate();
-		if ($file) {
-			echo $this->getInlineElement($file), PHP_EOL;
-		}
+		$this->setRenderMode(RenderMode::INLINE);
+		$this->render();
 	}
 
 
 	public function renderUrl(): void
 	{
-		$file = $this->compiler->generate();
-		if ($file) {
-			echo $this->getUrl($file), PHP_EOL;
-		}
+		$this->setRenderMode(renderMode::URL);
+		$this->render();
 	}
 
 
