@@ -70,22 +70,9 @@ abstract class WebLoader extends Control
 	 */
 	public function render(): void
 	{
-		$hasArgs = func_num_args() > 0;
-
-		if ($hasArgs) {
-			$backup = $this->compiler->getFileCollection();
-			$newFiles = new FileCollection($backup->getRoot());
-			$newFiles->addFiles(func_get_args());
-			$this->compiler->setFileCollection($newFiles);
-		}
-
 		$file = $this->compiler->generate();
 		if ($file) {
 			echo $this->getElement($file), PHP_EOL;
-		}
-
-		if ($hasArgs) {
-			$this->compiler->setFileCollection($backup);
 		}
 	}
 
